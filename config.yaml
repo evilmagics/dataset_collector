@@ -1,0 +1,13 @@
+dest: ./example/datasets
+
+classes: ["people", "motorcycle", "car", "truck", "bus"]
+
+workers: 5000
+
+sources:
+  - src: ./example/collections
+    class_name_sync:
+      motorcycle: ["motorcycle"]
+      car: ["car", "jeep", "van"]
+      truck: ["truck"]
+      bus: ["bus"]
