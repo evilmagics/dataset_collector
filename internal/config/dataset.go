@@ -20,7 +20,7 @@ type Dataset struct {
 }
 
 func (c Dataset) Debug() {
-	log.Debug().Any("Names Index", c.namesIndex).Send()
+	log.Debug().Any("Names Index", c.namesIndex).Any("Conf", c).Send()
 }
 
 func (c Dataset) GetClassName(id int) string {
@@ -70,10 +70,11 @@ func LoadDataset(fs afero.Fs, src string) (*Dataset, error) {
 	conf := new(Dataset)
 	err = yaml.Unmarshal(f, &conf)
 
-	conf.namesIndex = make(map[string]int)
+	conf.namesIndex = make(map[string]int, len(conf.Names))
 	for i, n := range conf.Names {
 		conf.namesIndex[n] = i
 	}
+	log.Info().Any("Names Index", conf.namesIndex).Msg("Create names index")
 
 	return conf, err
 }
